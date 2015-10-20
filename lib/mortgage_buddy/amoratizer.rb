@@ -30,7 +30,7 @@ module MortgageBuddy
     end
 
     def actual_monthly_payment
-      minimum_monthly_payment + @extra_monthly_payment
+      (minimum_monthly_payment + @extra_monthly_payment).round(2)
     end
 
     def total_num_payments
