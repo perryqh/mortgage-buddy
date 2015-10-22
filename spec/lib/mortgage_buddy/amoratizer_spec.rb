@@ -10,7 +10,7 @@ describe MortgageBuddy::Amoratizer do
   its(:total_num_payments) { is_expected.to eq(360) }
   its(:minimum_monthly_payment) { is_expected.to eq(1342.05) }
   its(:actual_monthly_payment) { is_expected.to eq(1342.05) }
-  its(:total_interest) { is_expected.to eq(233137.1) }
+  its(:total_interest) { is_expected.to eq(233137.13) }
 
   context 'a bigger loan' do
     let(:params) do
@@ -21,7 +21,7 @@ describe MortgageBuddy::Amoratizer do
     its(:total_num_payments) { is_expected.to eq(360) }
     its(:minimum_monthly_payment) { is_expected.to eq(2318.82) }
     its(:actual_monthly_payment) { is_expected.to eq(2318.82) }
-    its(:total_interest) { is_expected.to eq(284773.56) }
+    its(:total_interest) { is_expected.to eq(284773.57) }
   end
 
   context 'increase the payment' do

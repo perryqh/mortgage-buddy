@@ -45,11 +45,11 @@ module MortgageBuddy
 
     private
     def calculate_monthly_payment(amount, monthly_rate, period)
-      amount * (monthly_rate/(1 - (1 + monthly_rate)**(-period)))
+      (amount * (monthly_rate/(1 - (1 + monthly_rate)**(-period)))).round(2)
     end
 
     def calculate_total_fees
-      @fees + (@loan_amount * points/100)
+      (@fees + (@loan_amount * points/100)).round(2)
     end
   end
 end

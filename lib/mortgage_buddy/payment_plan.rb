@@ -20,30 +20,27 @@ module MortgageBuddy
     def build_payments
       payments       = []
       payment_number = 1
-      while @remaining_loan_amount > 0
-        interest = next_payment_interest
-        principal = next_payment_principal(interest)
-        if principal >= @remaining_loan_amount
-          difference             = principal - @remaining_loan_amount
-          principal              = @remaining_loan_amount.round(2)
-          payment                = (@monthly_payment - difference).round(2)
-          @remaining_loan_amount = 0
-        else
-          @remaining_loan_amount -= principal
-          payment                = @monthly_payment
-        end
+      while @remaining_loan_amount > 0.0
+        interest               = next_payment_interest
+        principal              = next_payment_principal(interest)
+        payment                = interest + principal
+        @remaining_loan_amount = (@remaining_loan_amount - principal).round(2)
         payments << OpenStruct.new(payment:   payment,
                                    interest:  interest,
                                    principal: principal,
                                    number:    payment_number,
-                                   balance:   @remaining_loan_amount.round(2))
+                                   balance:   @remaining_loan_amount)
         payment_number += 1
       end
       payments
     end
 
     def next_payment_principal(interest)
-      (@monthly_payment - interest).round(2)
+      principal = @monthly_payment - interest
+      if principal > @remaining_loan_amount
+        principal = @remaining_loan_amount
+      end
+      principal.round(2)
     end
 
     def next_payment_interest

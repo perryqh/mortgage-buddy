@@ -56,7 +56,7 @@ describe MortgageBuddy::MortgageCost do
       params[:fees]             = 0
       params[:points]           = 0
       monthly_payment_from_apr  = described_class.new(params).monthly_payment
-      expect(monthly_payment_with_fees).to be_within(0.01).of(monthly_payment_from_apr)
+      expect(monthly_payment_with_fees).to eq(monthly_payment_from_apr)
     end
 
     describe 'the monthly payment with fees should be the same as the monthly payment with APR as interest rate' do
@@ -92,7 +92,7 @@ describe MortgageBuddy::MortgageCost do
     end
 
     it 'does not return APR less than interest rate' do
-      expect(subject.apr).to be_within(0.00000001).of(6.0)
+      expect(subject.apr).to be_within(0.00001).of(6.0)
     end
   end
 end

@@ -15,7 +15,7 @@ Feature: Amoratize
     Scenarios: with required Amoratization fields
       | loan_amount | interest_rate | period | extra_monthly_payment | actual_monthly_payment | total_interest | total_num_payments |
       | 125000      | 3.5           | 360    | 0                     | 561.31                 | 77065.86       | 360                |
-      | 550000      | 3.0           | 360    | 0                     | 2318.82                | 284773.56      | 360                |
+      | 550000      | 3.0           | 360    | 0                     | 2318.82                | 284773.57      | 360                |
       | 550000      | 3.0           | 360    | 3000                  | 5318.82                | 87142.65       | 120                |
       | 550000      | 3.0           | 360    | 4000                  | 6318.82                | 71016.65       | 99                 |
       | 525000      | 3.0           | 360    | 4000                  | 6213.42                | 65485.9        | 96                 |
