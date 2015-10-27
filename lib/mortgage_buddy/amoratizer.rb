@@ -10,14 +10,15 @@ module MortgageBuddy
     # [:period] Number of months of the loan. 30 yr is 360. 15 yr is 189
     # [:extra_monthly_payment] This is the extra monthly principal payment. Optional and defaults to 0
     def initialize(params={})
-      @interest_rate         = safe_float params[:interest_rate]
-      @loan_amount           = safe_float params[:loan_amount]
-      @period                = safe_int params[:period]
-      @extra_monthly_payment = safe_float(params.fetch(:extra_monthly_payment, 0))
+      @interest_rate              = safe_float params[:interest_rate]
+      @loan_amount                = safe_float params[:loan_amount]
+      @period                     = safe_int params[:period]
+      @extra_monthly_payment      = safe_float(params.fetch(:extra_monthly_payment, 0))
+      @interest_rounding_strategy = params[:interest_rounding_strategy]
     end
 
     def total_interest
-      payments.inject(0){|sum,pay| sum + pay.interest }.round(2)
+      payments.inject(0) { |sum, pay| sum + pay.interest }.round(2)
     end
 
     # A = [i * P * (1 + i)^n] / [(1 + i)^n - 1]
@@ -38,9 +39,10 @@ module MortgageBuddy
     end
 
     def payments
-      @payments ||= MortgageBuddy::PaymentPlan.build(loan_amount:           self.loan_amount,
-                                                     monthly_payment:       actual_monthly_payment,
-                                                     monthly_interest_rate: monthly_interest_rate)
+      @payments ||= MortgageBuddy::PaymentPlan.build(loan_amount:                self.loan_amount,
+                                                     monthly_payment:            actual_monthly_payment,
+                                                     monthly_interest_rate:      monthly_interest_rate,
+                                                     interest_rounding_strategy: @interest_rounding_strategy)
     end
 
     private

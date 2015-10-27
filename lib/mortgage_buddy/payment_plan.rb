@@ -7,10 +7,11 @@ module MortgageBuddy
     end
 
     def initialize(params)
-      @loan_amount           = params[:loan_amount]
-      @monthly_payment       = params[:monthly_payment]
-      @monthly_interest_rate = params[:monthly_interest_rate]
-      @remaining_loan_amount = @loan_amount
+      @loan_amount                = params[:loan_amount]
+      @monthly_payment            = params[:monthly_payment]
+      @monthly_interest_rate      = params[:monthly_interest_rate]
+      @interest_rounding_strategy = params[:interest_rounding_strategy] || MortgageBuddy::StandardRounding
+      @remaining_loan_amount      = @loan_amount
     end
 
     def payments
@@ -44,7 +45,8 @@ module MortgageBuddy
     end
 
     def next_payment_interest
-      (@monthly_interest_rate * @remaining_loan_amount * 100).floor.to_f / 100
+      @interest_rounding_strategy.round(@monthly_interest_rate * @remaining_loan_amount)
     end
+
   end
 end
