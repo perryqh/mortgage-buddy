@@ -38,8 +38,13 @@ module MortgageBuddy
       payments.length
     end
 
+    def last_monthly_payment
+      payments.last.payment
+    end
+
     def payments
       @payments ||= MortgageBuddy::PaymentPlan.build(loan_amount:                self.loan_amount,
+                                                     period:                     self.period,
                                                      monthly_payment:            actual_monthly_payment,
                                                      monthly_interest_rate:      monthly_interest_rate,
                                                      interest_rounding_strategy: @interest_rounding_strategy)

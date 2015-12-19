@@ -12,6 +12,7 @@ describe MortgageBuddy::Amoratizer do
   its(:minimum_monthly_payment) { is_expected.to eq(1342.05) }
   its(:actual_monthly_payment) { is_expected.to eq(1342.05) }
   its(:total_interest) { is_expected.to eq(233137.13) }
+  its(:last_monthly_payment) { is_expected.to eq(1341.18) }
 
   context 'a bigger loan' do
     let(:params) do
@@ -24,19 +25,21 @@ describe MortgageBuddy::Amoratizer do
     its(:minimum_monthly_payment) { is_expected.to eq(2318.82) }
     its(:actual_monthly_payment) { is_expected.to eq(2318.82) }
     its(:total_interest) { is_expected.to eq(284773.57) }
+    its(:last_monthly_payment) { is_expected.to eq(2317.19) }
   end
 
   context 'standard interest rounding' do
     let(:params) do
-      {interest_rate:              5.0,
-       loan_amount:                250000,
-       period:                     360}
+      {interest_rate: 5.0,
+       loan_amount:   250000,
+       period:        360}
     end
     subject { described_class.new(params) }
     its(:total_num_payments) { is_expected.to eq(360) }
     its(:minimum_monthly_payment) { is_expected.to eq(1342.05) }
     its(:actual_monthly_payment) { is_expected.to eq(1342.05) }
-    its(:total_interest) { is_expected.to eq(233141.29) }
+    its(:last_monthly_payment) { is_expected.to eq(1345.33) }
+    its(:total_interest) { is_expected.to eq(233141.28) }
   end
 
   context 'increase the payment' do
@@ -51,6 +54,7 @@ describe MortgageBuddy::Amoratizer do
     its(:minimum_monthly_payment) { is_expected.to eq(2331.47) }
     its(:actual_monthly_payment) { is_expected.to eq(6331.47) }
     its(:total_interest) { is_expected.to eq(71691.29) }
+    its(:last_monthly_payment) { is_expected.to eq(4207.23) }
   end
 
   context 'increase the payment' do
@@ -65,6 +69,7 @@ describe MortgageBuddy::Amoratizer do
     its(:minimum_monthly_payment) { is_expected.to eq(2281.91) }
     its(:actual_monthly_payment) { is_expected.to eq(6281.91) }
     its(:total_interest) { is_expected.to eq(68019.23) }
+    its(:last_monthly_payment) { is_expected.to eq(2392.05) }
   end
 
   context 'reduced the loan amount (one time payment)' do
@@ -79,5 +84,6 @@ describe MortgageBuddy::Amoratizer do
     its(:minimum_monthly_payment) { is_expected.to eq(2108.02) }
     its(:actual_monthly_payment) { is_expected.to eq(6108.02) }
     its(:total_interest) { is_expected.to eq(60125.64) }
+    its(:last_monthly_payment) { is_expected.to eq(4295.82) }
   end
 end
