@@ -31,5 +31,5 @@ Then(/^the total interest paid should be \$(.*)$/) do |total_interest|
 end
 
 Then(/^the number of payments should be (\d+)$/) do |total_num_payments|
-  expect(amoratizer.total_num_payments.to_s).to eq(total_num_payments)
+  expect(amoratizer.total_num_payments).to eq(total_num_payments)
 end
