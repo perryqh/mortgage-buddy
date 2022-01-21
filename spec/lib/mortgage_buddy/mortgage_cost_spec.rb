@@ -3,6 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe MortgageBuddy::MortgageCost do
+  subject(:mortgage_cost) { described_class.new(params) }
+
   let(:params) do
     { loan_amount: 100_000,
       interest_rate: 6.0,
@@ -10,7 +12,6 @@ RSpec.describe MortgageBuddy::MortgageCost do
       fees: 1200,
       points: 1.25 }
   end
-  subject(:mortgage_cost) { described_class.new(params) }
 
   describe 'initialize' do
     its(:loan_amount) { is_expected.to eq(params[:loan_amount]) }
@@ -37,6 +38,7 @@ RSpec.describe MortgageBuddy::MortgageCost do
 
     context 'params as strings' do
       subject { described_class.new(string_params) }
+
       let(:string_params) do
         { loan_amount: '100000',
           interest_rate: '6.0',
@@ -44,6 +46,7 @@ RSpec.describe MortgageBuddy::MortgageCost do
           fees: '1200',
           points: '1.25' }
       end
+
       its(:loan_amount) { is_expected.to eq(params[:loan_amount]) }
       its(:interest_rate) { is_expected.to eq(params[:interest_rate]) }
       its(:period) { is_expected.to eq(params[:period]) }
@@ -84,6 +87,7 @@ RSpec.describe MortgageBuddy::MortgageCost do
         fees: 1200,
         points: -11.25 }
     end
+
     its(:total_fees) { is_expected.to eq(0) }
 
     it 'calculates total fees' do

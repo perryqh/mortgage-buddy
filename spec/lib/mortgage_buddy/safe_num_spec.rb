@@ -12,6 +12,7 @@ RSpec.describe MortgageBuddy::SafeNum do
 
     context 'with float' do
       let(:the_float) { 12.2 }
+
       it 'returns the same float' do
         expect(safe_float).to eq(the_float)
       end
@@ -19,6 +20,7 @@ RSpec.describe MortgageBuddy::SafeNum do
 
     context 'with string' do
       let(:the_float) { '9.2' }
+
       it 'converts to float' do
         expect(safe_float).to eq(9.2)
       end
@@ -26,6 +28,7 @@ RSpec.describe MortgageBuddy::SafeNum do
 
     context 'not a number' do
       let(:the_float) { 'abra' }
+
       it 'raises error' do
         expect { safe_float }.to raise_error(ArgumentError)
       end
@@ -37,6 +40,7 @@ RSpec.describe MortgageBuddy::SafeNum do
 
     context 'with int' do
       let(:the_int) { 121 }
+
       it 'returns the same int' do
         expect(safe_int).to eq(the_int)
       end
@@ -44,6 +48,7 @@ RSpec.describe MortgageBuddy::SafeNum do
 
     context 'with string' do
       let(:the_int) { '92' }
+
       it 'converts to int' do
         expect(safe_int).to eq(92)
       end
@@ -51,6 +56,7 @@ RSpec.describe MortgageBuddy::SafeNum do
 
     context 'not a number' do
       let(:the_int) { 'abra' }
+
       it 'raises error' do
         expect { safe_int }.to raise_error(ArgumentError)
       end

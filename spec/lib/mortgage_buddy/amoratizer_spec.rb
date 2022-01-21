@@ -3,13 +3,15 @@
 require 'spec_helper'
 
 RSpec.describe MortgageBuddy::Amoratizer do
+  subject { described_class.new(params) }
+
   let(:params) do
     { interest_rate: 5.0,
       interest_rounding_strategy: MortgageBuddy::FloorRounding,
       loan_amount: 250_000,
       period: 360 }
   end
-  subject { described_class.new(params) }
+
   its(:total_num_payments) { is_expected.to eq(360) }
   its(:minimum_monthly_payment) { is_expected.to eq(1342.05) }
   its(:actual_monthly_payment) { is_expected.to eq(1342.05) }
@@ -23,6 +25,7 @@ RSpec.describe MortgageBuddy::Amoratizer do
         loan_amount: 550_000,
         period: 360 }
     end
+
     its(:total_num_payments) { is_expected.to eq(360) }
     its(:minimum_monthly_payment) { is_expected.to eq(2318.82) }
     its(:actual_monthly_payment) { is_expected.to eq(2318.82) }
@@ -31,12 +34,14 @@ RSpec.describe MortgageBuddy::Amoratizer do
   end
 
   context 'standard interest rounding' do
+    subject { described_class.new(params) }
+
     let(:params) do
       { interest_rate: 5.0,
         loan_amount: 250_000,
         period: 360 }
     end
-    subject { described_class.new(params) }
+
     its(:total_num_payments) { is_expected.to eq(360) }
     its(:minimum_monthly_payment) { is_expected.to eq(1342.05) }
     its(:actual_monthly_payment) { is_expected.to eq(1342.05) }
@@ -52,6 +57,7 @@ RSpec.describe MortgageBuddy::Amoratizer do
         period: 360,
         extra_monthly_payment: 4000 }
     end
+
     its(:total_num_payments) { is_expected.to eq(99) }
     its(:minimum_monthly_payment) { is_expected.to eq(2331.47) }
     its(:actual_monthly_payment) { is_expected.to eq(6331.47) }
@@ -67,6 +73,7 @@ RSpec.describe MortgageBuddy::Amoratizer do
         period: 360,
         extra_monthly_payment: 4000 }
     end
+
     its(:total_num_payments) { is_expected.to eq(99) }
     its(:minimum_monthly_payment) { is_expected.to eq(2281.91) }
     its(:actual_monthly_payment) { is_expected.to eq(6281.91) }
@@ -82,6 +89,7 @@ RSpec.describe MortgageBuddy::Amoratizer do
         period: 360,
         extra_monthly_payment: 4000 }
     end
+
     its(:total_num_payments) { is_expected.to eq(92) }
     its(:minimum_monthly_payment) { is_expected.to eq(2108.02) }
     its(:actual_monthly_payment) { is_expected.to eq(6108.02) }

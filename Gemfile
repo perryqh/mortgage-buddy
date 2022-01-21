@@ -8,4 +8,5 @@ gem 'rake'
 gem 'rspec'
 gem 'rspec-its'
 gem 'rubocop'
+gem 'rubocop-rspec'
 gemspec
