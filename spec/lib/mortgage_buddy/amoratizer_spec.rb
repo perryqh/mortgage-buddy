@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe MortgageBuddy::Amoratizer do
-  subject { described_class.new(params) }
+  subject(:amoratizer) { described_class.new(params) }
 
   let(:params) do
     { interest_rate: 5.0,
@@ -95,5 +95,25 @@ RSpec.describe MortgageBuddy::Amoratizer do
     its(:actual_monthly_payment) { is_expected.to eq(6108.02) }
     its(:total_interest) { is_expected.to eq(60_125.64) }
     its(:last_monthly_payment) { is_expected.to eq(4295.82) }
+  end
+
+  context 'a quick payoff' do
+    let(:params) do
+      { interest_rate: 3.5,
+        interest_rounding_strategy: MortgageBuddy::FloorRounding,
+        extra_monthly_payment: 570_101.36,
+        loan_amount: 571_000,
+        period: 360 }
+    end
+
+    its(:total_num_payments) { is_expected.to eq(1) }
+    its(:minimum_monthly_payment) { is_expected.to eq(2564.05) }
+    its(:actual_monthly_payment) { is_expected.to eq(572_665.41) }
+    its(:total_interest) { is_expected.to eq(1665.41) }
+    its(:last_monthly_payment) { is_expected.to eq(572_665.41) }
+
+    it 'calculates the cost of the loan if paid in full on first payment' do
+      expect(amoratizer.total_interest).to eq(1665.41)
+    end
   end
 end
