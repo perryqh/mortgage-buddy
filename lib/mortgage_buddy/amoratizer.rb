@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 module MortgageBuddy
   class Amoratizer
-    include SafeNum, Monthly
-    attr_reader :interest_rate, :loan_amount, :period
-    attr_reader :extra_monthly_payment # optional
+    include Monthly
+    include SafeNum
+    attr_reader :interest_rate, :loan_amount, :period, :extra_monthly_payment, :interest_rounding_strategy # optional
 
     # == Parameters
     # [:loan_amount]  Loan amount. Price of home minus down payment
     # [:interest_rate] The actual interest rate of the loan
     # [:period] Number of months of the loan. 30 yr is 360. 15 yr is 189
     # [:extra_monthly_payment] This is the extra monthly principal payment. Optional and defaults to 0
-    def initialize(params={})
+    def initialize(params = {})
       @interest_rate              = safe_float params[:interest_rate]
       @loan_amount                = safe_float params[:loan_amount]
       @period                     = safe_int params[:period]
@@ -31,7 +33,7 @@ module MortgageBuddy
     end
 
     def actual_monthly_payment
-      (minimum_monthly_payment + @extra_monthly_payment).round(2)
+      (minimum_monthly_payment + extra_monthly_payment).round(2)
     end
 
     def total_num_payments
@@ -43,17 +45,18 @@ module MortgageBuddy
     end
 
     def payments
-      @payments ||= MortgageBuddy::PaymentPlan.build(loan_amount:                self.loan_amount,
-                                                     period:                     self.period,
-                                                     monthly_payment:            actual_monthly_payment,
-                                                     monthly_interest_rate:      monthly_interest_rate,
-                                                     interest_rounding_strategy: @interest_rounding_strategy)
+      @payments ||= MortgageBuddy::PaymentPlan.build(loan_amount: loan_amount,
+                                                     period: period,
+                                                     monthly_payment: actual_monthly_payment,
+                                                     monthly_interest_rate: monthly_interest_rate,
+                                                     interest_rounding_strategy: interest_rounding_strategy)
     end
 
     private
+
     def calculate_minimum_monthly_payment
-      period_rate = (1 + monthly_interest_rate)**(self.period)
-      numerator   = monthly_interest_rate * self.loan_amount * period_rate
+      period_rate = (1 + monthly_interest_rate)**period
+      numerator   = monthly_interest_rate * loan_amount * period_rate
       denominator = period_rate - 1
       (numerator / denominator).round(2)
     end

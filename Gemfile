@@ -1,4 +1,11 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in mortgage-buddy.gemspec
+gem 'cucumber'
+gem 'pry-nav'
+gem 'rake'
+gem 'rspec'
+gem 'rspec-its'
+gem 'rubocop'
 gemspec

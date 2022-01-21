@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'ostruct'
 require 'active_support/core_ext/object/blank'
 require 'mortgage_buddy/version'

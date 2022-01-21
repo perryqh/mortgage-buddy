@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 def amoratizer
-  @amoratizer ||= MortgageBuddy::Amoratizer.new(loan_amount:               @loan_amount,
-                                                interest_rate:             @interest_rate,
-                                                period:                    @period,
+  @amoratizer ||= MortgageBuddy::Amoratizer.new(loan_amount: @loan_amount,
+                                                interest_rate: @interest_rate,
+                                                period: @period,
                                                 interest_rounding_strategy: MortgageBuddy::FloorRounding,
-                                                extra_monthly_payment:     @extra_monthly_payment)
+                                                extra_monthly_payment: @extra_monthly_payment)
 end
 
 Given(/^a loan amount of \$(\d+)$/) do |loan_amount|

@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module MortgageBuddy
   class AprCalculator
     attr_accessor :loan_amount, :monthly_payment_with_fees, :period, :monthly_interest_rate
 
-    def initialize(attributes={})
+    def initialize(attributes = {})
       attributes.each do |name, value|
         send("#{name}=", value)
       end
@@ -13,11 +15,13 @@ module MortgageBuddy
     # where a = APR/1200, N = period, P = monthly payment, C = loan_amount
     # calculate APR uses the Newton-Raphson to find the root (the value for 'a' that makes f(a) = 0)
     def apr
-      payment_ratio = self.monthly_payment_with_fees / self.loan_amount
-      f             = lambda { |k| (k**(self.period + 1) - (k**self.period * (payment_ratio + 1)) + payment_ratio) }
-      f_deriv       = lambda { |k| ((self.period + 1) * k**self.period) - (self.period * (payment_ratio + 1) * k**(self.period - 1)) }
+      payment_ratio = monthly_payment_with_fees / loan_amount
+      f             = ->(k) { (k**(period + 1) - (k**period * (payment_ratio + 1)) + payment_ratio) }
+      f_deriv       = lambda { |k|
+        ((period + 1) * k**period) - (period * (payment_ratio + 1) * k**(period - 1))
+      }
 
-      root = newton_raphson(f, f_deriv, self.monthly_interest_rate + 1)
+      root = newton_raphson(f, f_deriv, monthly_interest_rate + 1)
       100 * 12 * (root - 1).to_f
     end
 

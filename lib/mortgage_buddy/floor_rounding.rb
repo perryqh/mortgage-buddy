@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MortgageBuddy
   class FloorRounding
     class << self
